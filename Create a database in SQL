@@ -30,7 +30,7 @@ SELECT NAME, AVG(VENTAS) AS VENTAS_PROMEDIO
 FROM TIENDA
 GROUP BY name;
 
-#Como lo hace charlotte#
+#Another example#
 
 --Create a grocery store database
 
