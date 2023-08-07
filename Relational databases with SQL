@@ -1,0 +1,139 @@
+We are going to create a table about the people and what they do here */
+
+CREATE TABLE Películas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Título TEXT,
+    AñoLanzamiento INTEGER,
+    Director TEXT);
+
+
+
+INSERT INTO Películas (Título, AñoLanzamiento, Director)
+VALUES ('Inception', 2010, 'Christopher Nolan');
+INSERT INTO Películas (Título, AñoLanzamiento, Director)
+VALUES ("Fight Club", 1999 , "David Fincher");
+INSERT INTO Películas (Título, AñoLanzamiento, Director)
+VALUES ('The Lion King', 1994, 'Roger Allers, Rob Minkoff');
+INSERT INTO Películas (Título, AñoLanzamiento, Director)
+VALUES ("Titanic", 1997 , "James Cameron");
+INSERT INTO Películas (Título, AñoLanzamiento, Director)
+VALUES ("The Dark Knight", 2008 , "Christopher Nolan");
+
+
+
+CREATE TABLE PersonasFamosas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nombre TEXT,
+    Profesión TEXT,
+    FechaNacimiento INTEGER,
+    Nacionalidad  TEXT);
+    
+ INSERT INTO PersonasFamosas (Nombre, Profesión, FechaNacimiento, Nacionalidad)
+VALUES ('Brad Pitt', 'Actor', '18/12/1963', 'EE. UU.');   
+ INSERT INTO PersonasFamosas (Nombre, Profesión, FechaNacimiento, Nacionalidad)
+VALUES ('Beyoncé', 'Cantante', '04/09/1981', 'EE. UU.'); 
+ INSERT INTO PersonasFamosas (Nombre, Profesión, FechaNacimiento, Nacionalidad)
+VALUES ('Stephen King', 'Autor', '21/09/1947', 'EE. UU.');   
+ INSERT INTO PersonasFamosas (Nombre, Profesión, FechaNacimiento, Nacionalidad)
+VALUES ('Harry Potter', 'Ficticio', '-', 'Reino Unido'); 
+ INSERT INTO PersonasFamosas (Nombre, Profesión, FechaNacimiento, Nacionalidad)
+VALUES ('Angelina Jolie', 'Actriz', '04/06/1975', 'EE. UU.'); 
+
+
+CREATE TABLE Canciones (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Título TEXT,
+    CantanteCompositor TEXT,
+    AñoLanzamiento INTEGER);
+    
+INSERT INTO Canciones (Título, CantanteCompositor, AñoLanzamiento)
+VALUES ('Halo', 'Beyoncé', 2008);
+INSERT INTO Canciones (Título, CantanteCompositor, AñoLanzamiento)
+VALUES ('Imagine', 'John Lennon', 1971);
+INSERT INTO Canciones (Título, CantanteCompositor, AñoLanzamiento)
+VALUES ('Shape of You', 'Ed Sheeran', 2017);
+INSERT INTO Canciones (Título, CantanteCompositor, AñoLanzamiento)
+VALUES ('Bohemian Rhapsody', 'Queen', 1975);
+INSERT INTO Canciones (Título, CantanteCompositor, AñoLanzamiento)
+VALUES ('Billie Jean', 'Michael Jackson', 1982);
+
+
+CREATE TABLE Libros (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Título TEXT,
+    Autor TEXT,
+    AñoPublicación INTEGER);
+
+INSERT INTO Libros (Título, Autor, AñoPublicación)
+VALUES ('The Shining', 'Stephen King', 1977);
+INSERT INTO Libros (Título, Autor, AñoPublicación)
+VALUES ('To Kill a Mockingbird', 'Harper Lee', 1960);
+INSERT INTO Libros (Título, Autor, AñoPublicación)
+VALUES ('Harry Potter and the Sorcerers Stone', 'J.K. Rowling', 1997);
+INSERT INTO Libros (Título, Autor, AñoPublicación)
+VALUES ('The Da Vinci Code', 'Dan Brown', 2003);
+INSERT INTO Libros (Título, Autor, AñoPublicación)
+VALUES ('1984', 'George Orwell', 1949);
+
+
+
+CREATE TABLE PersonajesFicticios (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    NombrePersonaje TEXT,
+    LibroAparece TEXT,
+    Relaciones TEXT);
+
+    
+INSERT INTO PersonajesFicticios (NombrePersonaje, LibroAparece, Relaciones)
+VALUES ('Harry Potter', 'Harry Potter', 'Hermione Granger, Ron Weasley');
+INSERT INTO PersonajesFicticios (NombrePersonaje, LibroAparece, Relaciones)
+VALUES ('Frodo Baggins', 'The Lord of the Rings', 'Samwise Gamgee, Gandalf');
+INSERT INTO PersonajesFicticios (NombrePersonaje, LibroAparece, Relaciones)
+VALUES ('Sherlock Holmes', 'Sherlock Holmes', 'Dr. John Watson, Professor Moriarty');
+INSERT INTO PersonajesFicticios (NombrePersonaje, LibroAparece, Relaciones)
+VALUES ('Katniss Everdeen', 'The Hunger Games', '	Peeta Mellark, Gale Hawthorne');
+INSERT INTO PersonajesFicticios (NombrePersonaje, LibroAparece, Relaciones)
+VALUES ('Jay Gatsby', 'The Great Gatsby', 'Daisy Buchanan, Tom Buchanan');
+
+SELECT * FROM Películas;
+SELECT * FROM PersonasFamosas;
+Select * from canciones;
+SELECT * FROM LIBROS;
+SELECT * FROM PersonajesFicticios;
+
+CREATE TABLE Participaciones (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    IDPersona INTEGER,
+    IDPelícula INTEGER,
+    Apareció TEXT,
+    FOREIGN KEY (IDPersona) REFERENCES PersonasFamosas(ID),
+    FOREIGN KEY (IDPelícula) REFERENCES Películas(ID)
+);
+
+INSERT INTO Participaciones (IDPersona, IDPelícula, Apareció)
+VALUES (1, 1, 'si'); -- Brad Pitt en Inception
+
+INSERT INTO Participaciones (IDPersona, IDPelícula, Apareció)
+VALUES (1, 2, 'si'); -- Brad Pitt en Fight Club
+
+INSERT INTO Participaciones (IDPersona, IDPelícula, Apareció)
+VALUES (2, 3, 'no'); -- Beyoncé no apareció en The Lion King
+
+SELECT * from Participaciones;
+
+
+/*Estrellas de cine: ¿en qué películas de los ejemplos mostrados en la tabla participaciones salen?*/
+
+SELECT PersonasFamosas.Nombre, Películas.Título, Participaciones.Apareció
+FROM PersonasFamosas
+JOIN Participaciones ON PersonasFamosas.ID = Participaciones.IDPersona
+JOIN Películas ON Participaciones.IDPelícula = Películas.ID
+WHERE PersonasFamosas.Profesión = "Actor" or "Actrizz";
+
+/*Cantantes: ¿qué canciones que aparecen en la tabla de personas famosas escribieron que canciones? ¿De dónde son?(Incluye todos los personajes famosos que aparezcan independientemente si son cantantes o no)*/
+
+SELECT PersonasFamosas.Nombre, Canciones.Título, PersonasFamosas.Nacionalidad FROM PersonasFamosas LEFT JOIN Canciones ON PersonasFamosas.Nombre = Canciones.CantanteCompositor;
+
+/*Autores de la tabla de personas famosas ¿qué libros escribieron?*/
+
+SELECT PersonasFamosas.Nombre, LIBROS.Autor, PersonasFamosas.Nacionalidad FROM PersonasFamosas  JOIN LIBROS ON PersonasFamosas.Nombre = LIBROS.AUTOR;
