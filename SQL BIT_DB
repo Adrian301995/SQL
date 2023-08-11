@@ -1,0 +1,67 @@
+select * from BIT_DB.customers limit10
+
+select * from BIT_DB.JanSales limit10
+WHERE orderID IS NOT NULL
+AND orderID <> 'Order ID'
+
+
+select COUNT(orderID) from BIT_DB.JanSales 
+WHERE orderID IS NOT NULL
+AND orderID <> 'Order ID'
+
+
+select COUNT(orderID) from BIT_DB.JanSales 
+WHERE orderID IS NOT NULL
+AND orderID <> 'Order ID'
+AND Product = "iPhone"
+
+select * from BIT_DB.FebSales
+WHERE orderID IS NOT NULL
+AND orderID <> 'Order ID'
+
+select * from BIT_DB.customers
+
+select FebSales.Quantity, FebSales.Product, customers.acctnum 
+FROM BIT_DB.FebSales 
+JOIN BIT_DB.customers 
+on FebSales.orderID = customers.order_id
+WHERE orderID IS NOT NULL
+AND orderID <> 'Order ID'
+
+
+select product, price, SUM(ROUND(JanSales.Quantity * JanSales.price)) AS Revenue
+FROM BIT_DB.JanSales 
+GROUP BY Product, Price
+
+
+select Product, SUM(Quantity), SUM(ROUND(FebSales.Quantity * FebSales.price)) AS Revenue
+FROM BIT_DB.FebSales 
+WHERE location is "548 Lincoln St, Seattle, WA 98101"
+
+
+Select customers.order_id, COUNT(distinct(customers.acctnum)), AVG(FebSales.Quantity * FebSales.price) AS Revenue
+FROM BIT_DB.FebSales 
+LEFT JOIN BIT_DB.customers 
+on FebSales.orderID = customers.order_id
+Where FebSales.Quantity > 2
+AND length(orderid) = 6 
+AND orderID IS NOT NULL
+AND orderID <> 'Order ID'
+
+
+
+select 
+count(distinct cust.acctnum), 
+avg(quantity*price)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+WHERE Feb.Quantity>2
+AND length(orderid) = 6 
+AND orderid <> 'Order ID'
+
+SELECT SUM(quantity), price, product
+
+FROM BIT_DB.JanSales
+
+GROUP BY product, price
